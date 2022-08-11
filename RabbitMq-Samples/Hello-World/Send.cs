@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using RabbitMQ.Client;
 
 namespace Hello_World
@@ -24,7 +23,7 @@ namespace Hello_World
 
                     channel.BasicPublish("", "hello", null, body);
 
-                    Console.WriteLine($"snet message {message}");
+                    Console.WriteLine($"sent message {message}");
                 }
             }
 
