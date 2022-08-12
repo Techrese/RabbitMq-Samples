@@ -6,13 +6,16 @@ using (var connection = factory.CreateConnection())
 {
     using (var channel = connection.CreateModel())
     {
-        channel.QueueDeclare("hello", false, false, false, null);
+        channel.QueueDeclare("task_queue", true, false, false, null);        
 
         var message = GetMessage(args);
 
         var body = Encoding.UTF8.GetBytes(message);
 
-        channel.BasicPublish("", "hello", null, body);
+        var properties = channel.CreateBasicProperties();
+        properties.Persistent = true;
+
+        channel.BasicPublish("", "task_queue", null, body);
 
         Console.WriteLine($"sent message {message}");
     }

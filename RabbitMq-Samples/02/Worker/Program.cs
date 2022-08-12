@@ -7,7 +7,9 @@ using (var connection = factory.CreateConnection())
 {
     using (var channel = connection.CreateModel())
     {
-        channel.QueueDeclare("hello", false, false, false, null);
+        channel.QueueDeclare("task_queue", false, false, false, null);
+
+        channel.BasicQos(0, 1, false);
 
         var consumer = new EventingBasicConsumer(channel);
 
@@ -21,9 +23,11 @@ using (var connection = factory.CreateConnection())
             Thread.Sleep(dots * 1000);
 
             Console.WriteLine("done");
+
+            channel.BasicAck(ea.DeliveryTag, false);
         };
 
-        channel.BasicConsume("hello", true, consumer);
+        channel.BasicConsume("task_queue", false, consumer);
 
         Console.WriteLine("press enter to exit");
         Console.ReadLine();
