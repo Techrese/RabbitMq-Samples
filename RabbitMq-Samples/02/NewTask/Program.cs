@@ -1,13 +1,14 @@
 ﻿using RabbitMQ.Client;
 using System.Text;
 
+const string Exchange = "logs";
+
 var factory = new ConnectionFactory() { HostName = "localhost" };
 using (var connection = factory.CreateConnection())
 {
     using (var channel = connection.CreateModel())
-    {
-        channel.QueueDeclare("task_queue", true, false, false, null);        
-
+    {       
+        channel.ExchangeDeclare(Exchange,ExchangeType.Fanout);
         var message = GetMessage(args);
 
         var body = Encoding.UTF8.GetBytes(message);
@@ -15,7 +16,7 @@ using (var connection = factory.CreateConnection())
         var properties = channel.CreateBasicProperties();
         properties.Persistent = true;
 
-        channel.BasicPublish("", "task_queue", null, body);
+        channel.BasicPublish(Exchange, "", null, body);
 
         Console.WriteLine($"sent message {message}");
     }

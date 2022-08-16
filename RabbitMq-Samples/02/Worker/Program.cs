@@ -2,14 +2,18 @@
 using RabbitMQ.Client.Events;
 using System.Text;
 
+const string Exchange = "logs";
+
 var factory = new ConnectionFactory() { HostName = "localhost" };
 using (var connection = factory.CreateConnection())
 {
     using (var channel = connection.CreateModel())
     {
-        channel.QueueDeclare("task_queue", false, false, false, null);
+        var queueName = channel.QueueDeclare().QueueName;
 
-        channel.BasicQos(0, 1, false);
+        channel.ExchangeDeclare(Exchange, ExchangeType.Fanout);
+
+        channel.QueueBind(queueName, Exchange, "");
 
         var consumer = new EventingBasicConsumer(channel);
 
@@ -18,16 +22,10 @@ using (var connection = factory.CreateConnection())
             var body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
             Console.WriteLine($"Received: {message}");
-
-            int dots = message.Split('.').Length - 1;
-            Thread.Sleep(dots * 1000);
-
-            Console.WriteLine("done");
-
-            channel.BasicAck(ea.DeliveryTag, false);
+                       
         };
 
-        channel.BasicConsume("task_queue", false, consumer);
+        channel.BasicConsume(queueName, true, consumer);
 
         Console.WriteLine("press enter to exit");
         Console.ReadLine();

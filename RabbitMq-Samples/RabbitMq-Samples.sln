@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hello-World", "01\Hello-Wor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hello-World-Receive", "01\Hello-World-Receive\Hello-World-Receive.csproj", "{A6214B4C-EF36-4273-B895-C7F897693A17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewTask", "02\NewTask\NewTask.csproj", "{34E0354A-8071-41FF-BC3F-B1AA2156192B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewTask", "02\NewTask\NewTask.csproj", "{34E0354A-8071-41FF-BC3F-B1AA2156192B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker", "02\Worker\Worker.csproj", "{8D122D36-56A0-4D48-BCE5-371D86BB56CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker", "02\Worker\Worker.csproj", "{8D122D36-56A0-4D48-BCE5-371D86BB56CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
