@@ -8,7 +8,7 @@ using (var connection = factory.CreateConnection())
 {
     using (var channel = connection.CreateModel())
     {       
-        channel.ExchangeDeclare(Exchange,ExchangeType.Fanout);
+        channel.ExchangeDeclare(Exchange,ExchangeType.Direct);
         var message = GetMessage(args);
 
         var body = Encoding.UTF8.GetBytes(message);
@@ -16,7 +16,7 @@ using (var connection = factory.CreateConnection())
         var properties = channel.CreateBasicProperties();
         properties.Persistent = true;
 
-        channel.BasicPublish(Exchange, "", null, body);
+        channel.BasicPublish(Exchange, "info", null, body);
 
         Console.WriteLine($"sent message {message}");
     }

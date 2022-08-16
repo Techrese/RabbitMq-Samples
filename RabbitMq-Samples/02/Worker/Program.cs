@@ -11,9 +11,12 @@ using (var connection = factory.CreateConnection())
     {
         var queueName = channel.QueueDeclare().QueueName;
 
-        channel.ExchangeDeclare(Exchange, ExchangeType.Fanout);
+        channel.ExchangeDeclare(Exchange, ExchangeType.Direct);
 
-        channel.QueueBind(queueName, Exchange, "");
+        foreach (var severity in args)
+        {
+            channel.QueueBind(queueName, Exchange, severity);
+        }               
 
         var consumer = new EventingBasicConsumer(channel);
 
